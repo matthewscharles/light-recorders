@@ -1,15 +1,13 @@
-//neopixel stuff
 #include <Adafruit_NeoPixel.h>
 #define NUMPIXELS      12
 
 #define PIN            9
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-//#define LEDPOWER       7 
+// #define LEDPOWER       7 
 
 #define VIBE1          5
 #define VIBE2          6
 #define BUTTON        3
-
 
 //long record;
 int invert = 0;
@@ -21,17 +19,12 @@ long startPoint;
 int recEnd;
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(2, INPUT);
   setupPixels();
 }
 
-
 void loop() {
- 
-  
-  
   Serial.print("light 1:");
   Serial.println(analogRead(A0));
   int lightIn =  map(analogRead(A0), 0, 1023, 0, 255);
@@ -41,14 +34,13 @@ void loop() {
   int lightIn2 =  map(analogRead(A1), 0, 1023, 0, 255);
   lightIn2 = constrain((lightIn2) * 1.2, 0, 255);
   
-
- unsigned long currentMillis = millis() - startPoint;
+  unsigned long currentMillis = millis() - startPoint;
   
 
 if (buttonFlag == 1) {
   analogWrite(VIBE1, lightIn);
   analogWrite(VIBE2, lightIn2);
-  //Serial.println("hello");
+  
   if ((currentMillis % rate) == 0){
    
    record[(currentMillis / rate)] = lightIn;
@@ -67,7 +59,7 @@ if (buttonFlag == 1) {
   }
    
   }
-  //Serial.println(lightIn);
+
 } else {
   int output = record[(currentMillis / rate) % recEnd];
   int output2 = record2[(currentMillis / rate) % recEnd];
@@ -102,29 +94,24 @@ int button = digitalRead(BUTTON);
     
   }
   
-  // put your main code here, to run repeatedly:
- // analogWrite(6, lightIn);
-//  delay(50);
-//  analogWrite(6, 0);
-//  delay(50);
 }
 
 
 void setupPixels(){
     pixels.begin();
 pixels.setBrightness(255); 
-  for (int i = 0; i<NUMPIXELS; i++)
-       {
-        pixels.setPixelColor(i, pixels.Color(255, 0, 0));
-       }
+  
+for (int i = 0; i<NUMPIXELS; i++) {
+  pixels.setPixelColor(i, pixels.Color(255, 0, 0));
+}
+  
 pixels.show();
 
-  delay(100);
+delay(100);
 
-for (int i = 0; i<NUMPIXELS; i++)
-       {
-        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
-       }
+for (int i = 0; i<NUMPIXELS; i++) {
+  pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+}
 pixels.show();
 
 }
